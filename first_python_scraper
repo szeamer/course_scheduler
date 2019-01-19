@@ -1,0 +1,48 @@
+#extract the contents of the coursecode divs
+course_info = clean_course_html.select('div.coursecode')
+
+courselist = {}
+
+for div in course_info:
+    #create a list of info about this course
+    course_string = div.get_text()
+    #create a list of variables based on this info
+    department = course_string.split('-')[0].split()[0]
+    course_num = course_string.split('-')[0].split()[1]
+    section = course_string.split('-')[1].split()[0]
+    code = course_string.split()[4]
+
+    #  FREN 102 - 01 (20001)  TF - 11:20 am - 12:35 pm; W - 11:20 am - 12:35 pm; Current Enrollment: 17; Seats available/Max: 1/18;
+
+    #get time info
+    time_string = course_string.split("Current")[0].split(')')[1]
+    times_list = time_string.split(';')
+    separate_times_list = []
+    #extract each class meeting from each of the time expressions
+    for time in times_list:
+        day_string=time.split('-')[0]
+        #make a new time for each weekday in the time expression
+        for n in range(len(day_string)-1):
+            if 'M' == day_string[n]:
+                separate_times_list.append('M'+ "-" + time.split('-')[1]+  "-" + time.split('-')[2])
+
+            elif 'W' == day_string[n]:
+                separate_times_list.append('W'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+
+            elif 'F' == day_string[n]:
+                separate_times_list.append('F'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+        
+            elif 'T' == day_string[n]:
+                if len(day_string)>1 and day_string[n+1] == 'h':
+                    separate_times_list.append('TH'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+                    
+                else:
+                    separate_times_list.append('T'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+                    
+    single_course_dict = {"Department": department,
+                           "Course Number": course_num,
+                           "Section": section,
+                           "Code": code,
+                           "Times": separate_times_list,
+                            }
+    courselist[department+course_num] = single_course_dict

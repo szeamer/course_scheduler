@@ -1,0 +1,9 @@
+#Download course html from Wellesley
+#January 9 2019
+#Silvie Zeamer
+
+import urllib.request
+from bs4 import BeautifulSoup
+
+#write the html of the Wellesley course browser page to a file
+urllib.request.urlretrieve("https://courses.wellesley.edu/", "course_html.html")

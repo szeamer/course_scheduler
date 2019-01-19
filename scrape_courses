@@ -1,0 +1,74 @@
+#Scrape courses from Wellesley's webpage
+#January 9 2019
+#Silvia Zeamer
+
+from bs4 import BeautifulSoup
+import json
+
+#read the contents of this file
+course_html = open("course_html.html").read()
+clean_course_html = BeautifulSoup(course_html, 'html.parser')
+
+
+#extract in another way
+title_prof_list = clean_course_html.select('div.coursename_small')
+other_info_list = clean_course_html.select('div.coursecode')
+
+#dict to receive info
+courselist = {}
+
+#merge the two
+for i in range(len(title_prof_list)):
+    #gather titles and professors
+    course_title = title_prof_list[i].p.getText()
+    try:
+        professorName = title_prof_list[i].span.getText()
+    except AttributeError:
+        professorName = "Professor Unknown"
+
+    #gather further info about course
+    course_string = other_info_list[i].getText()
+    department = course_string.split('-')[0].split()[0]
+    course_num = course_string.split('-')[0].split()[1]
+    section = course_string.split('-')[1].split()[0]
+    code = course_string.split()[4]
+
+     #get time info
+    time_string = course_string.split("Current")[0].split(')')[1]
+    times_list = time_string.split(';')
+    separate_times_list = []
+    for time in times_list:
+        day_string=time.split('-')[0]
+        #make a new time for each weekday in the time expression
+        for n in range(len(day_string)-1):
+            if 'M' == day_string[n]:
+                separate_times_list.append('M'+ "-" + time.split('-')[1]+  "-" + time.split('-')[2])
+
+            elif 'W' == day_string[n]:
+                separate_times_list.append('W'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+
+            elif 'F' == day_string[n]:
+                separate_times_list.append('F'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+        
+            elif 'T' == day_string[n]:
+                if len(day_string)>1 and day_string[n+1] == 'h':
+                    separate_times_list.append('TH'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+                    
+                else:
+                    separate_times_list.append('T'+ "-" + time.split('-')[1]+ "-" + time.split('-')[2])
+
+    single_course_dict = {"Title":course_title,
+                            "Professor":professorName,
+                           "Department": department,
+                           "Course Number": course_num,
+                           "Section": section,
+                           "Code": code,
+                           "Times": separate_times_list,
+                            }
+    
+    courselist[department+course_num+" - "+section] = single_course_dict
+
+with open('courses.js', 'w') as fp:
+    fp.write('var course_JSON = ')
+    json.dump(courselist, fp, indent=2)
+    fp.close()

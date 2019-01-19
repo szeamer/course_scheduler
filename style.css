@@ -1,0 +1,164 @@
+body{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color:rgb(226, 239, 248);
+    font-family: 'Times New Roman', Times, serif;
+    color:darkslategray;
+    align-content: center;
+
+}
+
+button{
+    width:100%;
+    padding:5pt;
+    margin: 5pt;
+
+    background-color: darkblue;
+    color:whitesmoke;
+    border-color:darkblue;
+    border-radius: 5pt;
+}
+
+input{
+    width:100%;
+    padding:5pt;
+    margin:5pt;
+}
+
+p{
+    text-align: center;
+}
+
+.hline{
+    height:1px;
+    background-color:lightsalmon;
+    opacity: .25;
+    grid-column: 1/7;
+}
+
+.vline{
+    width:1px;
+    background-color:lightsalmon;
+    opacity: .25;
+    grid-row:2/168;
+}
+
+.card{
+    background-color:lightblue;
+    color:darkblue;
+    font-size: 10pt;
+
+    border-radius: 5pt;
+    border-color:darkslategray;
+    padding:5pt;
+
+    z-index:1;
+    opacity:.95;
+    max-width: 250pt;
+}
+
+.menucard{
+    background-color:whitesmoke;
+    color:salmon;
+    font-size: 15pt;
+
+    border-radius: 5pt;
+    border-color:darkslategray;
+    padding:10pt;
+    margin:5pt;
+    width:100%;
+
+    min-height:50pt;
+    width:80%;
+}
+
+.time{
+    color:grey;
+    font-size: 8pt;
+}
+
+.menutime{
+    color:grey;
+    font-size: 10pt;
+}
+
+.container{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+
+    margin:20pt;
+}
+
+#menu{
+    height:100%;
+    overflow:auto;
+}
+
+#sidebar{
+    width:200pt;
+    height:65vh;
+}
+
+#title{
+    font-family:'Times New Roman', Times, serif;
+    color: darkblue;
+    background-color: whitesmoke;
+    border-radius: 10pt;
+    padding:30pt;
+    font-size: 25pt;
+    text-align:center;
+    margin-right: 20pt;
+    margin-left:20pt;
+   
+}
+
+#schedule{
+    margin-left: 20pt;
+    margin-right: 20pt;
+    padding: 10pt;
+    border-radius: 10pt;
+    width:100%;
+    height:100fr;
+    display: grid;
+    grid-template-columns: 35pt repeat(5, 1fr);
+    grid-template-rows: 35pt repeat(156, 3pt);
+
+    background-color:whitesmoke;
+
+}
+
+#scheduleheader{
+    margin-left: 5pt;
+    margin-right: 5pt;
+    padding: 10pt;
+    width:100%;
+    display: grid;
+    grid-template-columns: 10pt repeat(5, 1fr);
+}
+
+.timemark{
+    grid-column:1;
+}
+
+.monday{
+    grid-column: 2;
+}
+
+.tuesday{
+    grid-column: 3;
+}
+
+.wednesday{
+    grid-column: 4;
+}
+
+.thursday{
+    grid-column: 5;
+}
+
+.friday{
+    grid-column: 6;
+}
+
