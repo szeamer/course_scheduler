@@ -116,7 +116,7 @@ function timeToPlacement(time){
 
     timenum=time.split(" ")[0];
     minutes = timenum.split(":")[0]*60 + parseFloat(timenum.split(":")[1]);
-    if(time.split(" ")[1].trim()=='pm' && minutes <= 720){
+    if(time.split(" ")[1].trim()=='pm' && minutes < 720){
         minutes+=720;
     }
     //set start to 8:30
